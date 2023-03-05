@@ -86,11 +86,22 @@
                 </div>
                 @if ($post->interlink_image)
                     <div class="modal-body">
-                        <img src="{{ asset('/images/' . $post->interlink_image) }}" alt="" srcset="">
+                        @if ($post->url)
+                            <a href="{{ $post->url }}">
+                                <img src="{{ asset('/images/' . $post->interlink_image) }}" alt="" srcset="">
+                            </a>
+                        @else
+                        @endif
                     </div>
                 @endif
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Visit This URL</button>
+                    @if ($post->url)
+                        <a href="{{ $post->url }}">
+                            <button type="button" class="btn btn-primary">Visit This URL</button>
+                        </a>
+                    @else
+                        <button type="button" class="btn btn-primary">Visit This URL</button>
+                    @endif
                 </div>
             </div>
         </div>
