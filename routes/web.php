@@ -30,4 +30,7 @@ Route::get('/category/{category}', 'PageController@showCategory')->name('categor
 Route::group(['prefix' => '/admin', 'middleware' => 'auth'], function () {
     Route::resource('posts','PostController');
     Route::resource('categories','CategoryController')->except('show');
+
+    Route::get('profile','ProfileController@index')->name("profile.view");
+    Route::post('profile/update/{id}' ,'ProfileController@update' );
 });

@@ -29,3 +29,16 @@ li.breadcrumb-item {
 .form-check-label {
     margin-bottom: 10px;
 }
+
+
+.customRemove{
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}
+
+.customAddition{
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}

@@ -1,4 +1,6 @@
 @extends('layouts.innerFront')
+@section('title' , $category->title )
+
 @section('content')
     <section class="s-content">
 

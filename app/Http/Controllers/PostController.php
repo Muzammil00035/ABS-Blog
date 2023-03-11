@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostHeaders;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -24,9 +26,9 @@ class PostController extends Controller
     public function index()
     {
         //
-        if(auth()->user()->role =="user"){
+        if (auth()->user()->role == "user") {
             $posts = auth()->user()->posts;
-        }else{
+        } else {
             $posts = Post::all();
         }
         return view('back.posts.index', compact('posts'));
@@ -51,7 +53,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        // dd(count($request->file('data_head')));
+        // dd( array_push($request->data_head[0] , ['head_image' => "Good"]));
+
+        DB::beginTransaction();
+
         try {
             $validator = Validator::make($request->all(), [
                 'title' => 'required|unique:posts|max:255',
@@ -89,7 +95,10 @@ class PostController extends Controller
                     "user_id" => $request->user()->id,
                     "title" => $request->title,
                     "excerpt" => $request->excerpt,
+                    "slug" => Str::slug($request->slug),
                     "body" => $request->body,
+                    "meta_title" => $request->meta_title,
+                    "meta_description" => $request->meta_description,
                     "image" => $img,
                     "featured" => $request->featured ? true : false,
                     "interlink" => $request->interlink ? true : false,
@@ -98,14 +107,41 @@ class PostController extends Controller
                     "time_in_second" => $request->seconds ? $request->seconds : null,
                 ]);
                 if (!empty($postCreate)) {
-                    // $addCategory = CategoryPost::create([
-                    //     "post_id" => $postCreate->id,
-                    //     "category_id"=> $request->category
-                    // ]);
-                    // if(!empty($addCategory)){
-                    //     return redirect()->route('posts.index')->with('message', 'Post created successfully');
+                    if ($request->data_head) {
+                        if (count($request->data_head) > 0) {
+                            // $collection = collect($request->data_head);
+                            // // return $collection;
+                            // $collection = $collection->map(function ($item, $key) use ($postCreate , $request) {
+                            //     $item['post_id'] = $postCreate->id;
+                            //     if ($item['image']) {
 
-                    // }else{
+                            //         $item['imageExist'] = true;
+                            //         if ($request->hasFile($item['image'])) {
+                            //             $item['file'] = true;
+                            //         }
+                            //     }
+                            //     return $item;
+                            // });
+                            // return $collection;
+                            foreach ($request->data_head as $key => $value) {
+                                // return $value;
+                                // return $request->hasFile($value->head_image);
+                                $post_head = new PostHeaders();
+                                $post_head->heading = $value['heading'];
+                                $post_head->description = $value['description'];
+                                $post_head->post_id = $postCreate->id;
+                                if ($request->file('data_head')[$key]['head_image']) {
+                                    $name = $this->uploadDataHeadImage($request, $key);
+
+                                    $post_head->image = $name;
+                                }
+                                $post_head->save();
+                            }
+
+                        }
+                    }
+
+                    DB::commit();
                     return redirect()->route('posts.index')->with('success', 'Post created successfully.');
 
                     // }
@@ -115,7 +151,10 @@ class PostController extends Controller
                 }
             }
         } catch (\Exception$th) {
-            return $th;
+            DB::rollback();
+            // return redirect()->route('posts.create')->with('error', $th->getMessage());
+            return $th->getMessage();
+
         }
         // $abc = $request->user()->posts()->create($request->post());
 
@@ -141,7 +180,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::get();
-        $post = Post::with("categories")->find($post->id);
+        $post = Post::with("categories" , "headers")->find($post->id);
         // return $post;
         return view('back.posts.edit', [
             'post' => $post,
@@ -162,7 +201,7 @@ class PostController extends Controller
         // so we will use save directly on modal instead of mass assignment
         if ($request->has('image')) {
             $oldImage = $post->image;
-            if($oldImage){
+            if ($oldImage) {
                 if (file_exists(public_path('images/' . $oldImage))) {
                     unlink(public_path('images/' . $oldImage));
                 }
@@ -172,13 +211,13 @@ class PostController extends Controller
         }
         if ($request->has('interlink_image')) {
             $oldImage = $post->interlink_image;
-            if($oldImage){
+            if ($oldImage) {
                 if (file_exists(public_path('images/' . $oldImage))) {
                     unlink(public_path('images/' . $oldImage));
                 }
             }
             $this->uploadInterLinkImage($request);
-           
+
             $post->interlink_image = $request->post()['interlink_image'];
         }
 
@@ -186,6 +225,9 @@ class PostController extends Controller
         $post->excerpt = $request->excerpt;
         $post->body = $request->body;
         $post->url = $request->post_url;
+        $post->slug = Str::slug($request->slug);
+        $post->meta_title = $request->meta_title;
+        $post->meta_description = $request->meta_description;
         $post->interlink = $request->interlink == "on" ? true : false;
         $post->time_in_second = $request->seconds < 0 ? 0 : $request->seconds;
         $post->save();
@@ -222,6 +264,15 @@ class PostController extends Controller
         $image->move(public_path('images'), $imageName);
         $request->merge(['interlink_image' => $imageName]);
         // dd($request);
+    }
+
+    public function uploadDataHeadImage($request, $key)
+    {
+        $image = $request->file('data_head')[$key]['head_image'];
+        $imageName = time() . $image->getClientOriginalName();
+        // add the new file
+        $image->move(public_path('images'), $imageName);
+        return $imageName;
     }
 
 }

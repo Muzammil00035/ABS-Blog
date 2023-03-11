@@ -94,6 +94,15 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-header">Profile</li>
+                        <li class="nav-item">
+                            <a href="{{ route('profile.view') }}" class="nav-link">
+                                <i class="nav-icon fa fa-file-alt"></i>
+                                <p>
+                                    Your Profile
+                                </p>
+                            </a>
+                        </li>
 
                         @if (auth()->user()->isAdmin())
                             <li class="nav-item">

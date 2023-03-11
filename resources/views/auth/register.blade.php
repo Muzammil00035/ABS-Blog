@@ -45,6 +45,23 @@
                                 name="password_confirmation" required />
             </div>
 
+            <!-- User Type -->
+            <div class="mt-4">
+                <x-label for="type" :value="__('Type')" />
+                <select name="user_type" id="user_type" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full">
+                    <option value="author">Author</option>
+                    <option value="writer">Writer</option>
+                </select>
+            </div>
+
+            <!-- Intro -->
+            <div class="mt-4">
+                <x-label for="intro" :value="__('Intro')" />
+                <x-input id="user_intro" class="block mt-1 w-full" type="text" name="user_intro" :value="old('Intro')" required />
+
+                
+            </div>
+
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}

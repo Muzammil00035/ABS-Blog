@@ -27,9 +27,9 @@ class PageController extends Controller
     }
     
     public function showPost(Post $post){
-        $post = $post->load('user','categories');
+        $post = $post->load('user','categories' , 'headers');
         $categories = Category::get();
-
+    //    return $post;
         return view('front.posts.show', compact('post' , 'categories'));
     }
 

@@ -38,6 +38,28 @@
                                 <input type="text" name="title" id="title" class="form-control"
                                     value="{{ $post->title }}">
                             </div>
+
+                            {{-- Slug Field --}}
+                            <div class="form-group">
+                                <label for="slug">Slug </label>
+                                <input type="text" name="slug" id="slug" class="form-control"
+                                    value="{{ str_replace('-', ' ', $post->slug) }}" required>
+                            </div>
+                            {{-- End --}}
+
+                            {{-- Meta title and Meta Description Fields --}}
+                            <div class="form-group">
+                                <label for="meta-title">Meta Title </label>
+                                <input type="text" name="meta_title" id="meta_title" class="form-control"
+                                    value="{{ $post->meta_title }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="meta-description">Meta Description </label>
+                                <input type="text" name="meta_description" id="meta_description" class="form-control"
+                                    value="{{ $post->meta_description }}" required>
+                            </div>
+                            {{-- End --}}
+
                             <div class="form-group">
                                 <label for="resume">Post Excerpt</label>
                                 <textarea id="resume" name="excerpt" class="form-control" rows="3">{{ $post->excerpt }}</textarea>
@@ -109,7 +131,7 @@
                         <div class="card-body">
                             <div class="form-check">
                                 <input type="checkbox" name="interlink" class="form-check-input" id="exampleCheck2"
-                                    {{ $post->interlink == 1 ? "checked" : '' }}>
+                                    {{ $post->interlink == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label" name="interlink" for="exampleCheck2">InterLink</label>
                             </div>
                             <div class="form-group">
@@ -143,6 +165,75 @@
                     <!-- /.interlinking -->
                 </div>
             </div>
+
+            {{-- Multiple Data part --}}
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Additional Data</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-end mb-2">
+                                <span class="customAddition px-2">+</span>
+                            </div>
+                            <div class="data_container">
+                                @for ($i = 0; $i < count($post->headers); $i++)
+                                    <div id="datadev_0" class="element border p-3 mb-3">
+                                        <div class="d-flex justify-content-end">
+                                            <span class="customRemove px-2" id='remove_{{$i}}'>-</span>
+                                        </div>
+                                        <div class="row">
+                                            <input type="hidden" name="data_head[{{ $i }}][id]"
+                                                        id="data_head_id" class="form-control"
+                                                        value="{{ $post->headers[$i]->id }}">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="title">Heading</label>
+                                                    <input type="text" name="data_head[{{ $i }}][heading]"
+                                                        id="data_head_heading" class="form-control"
+                                                        value="{{ $post->headers[$i]->heading }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="title">Description </label>
+                                                    <input type="text" name="data_head[0][description]"
+                                                        id="data_head_description" class="form-control"
+                                                        value="{{ $post->headers[$i]->description }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="image-preview">
+                                                    <img src="{{ asset('images/' . $post->headers[$i]->image) }}"
+                                                        alt="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="title">Image</label>
+                                                    <input type="file" name="data_head[0][image]" id="data_head_image"
+                                                        class="form-control-file">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                @endfor
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+            {{-- End --}}
+
+
+
             <div class="row">
                 <div class="col-12">
                     <a href="#" class="btn btn-secondary">Cancel</a>
@@ -159,13 +250,105 @@
     <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 
     <script type="text/javascript">
-        CKEDITOR.replace('body', {
-            toolbar: [
-                // ['Bold', 'Italic',  'Link', 'Unlink']
-                ['Link', 'Unlink']
+        $(document).ready(function() {
+            CKEDITOR.replace('body');
 
-            ]
+            $(".customAddition").click(() => {
+                var total_element = $(".element").length;
+                if (total_element > 0) {
+                    var lastid = $(".element:last").attr("id");
+                    var split_id = lastid.split("_");
+                    var nextindex = Number(split_id[1]) + 1;
+                    var max = 5;
+                    // Check total number elements
+                    if (total_element < max) {
+                        // Adding new div container after last occurance of element class
+                        $(".element:last").after(
+                            `<div id="datadev_${nextindex}" class="element border p-3 mb-3"></div>`);
+
+                        // Adding element to <div>
+                        $("#datadev_" + nextindex).append(`
+                                    <div class="d-flex justify-content-end">
+                                        <span class="customRemove px-2" id='remove_${nextindex}'>-</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="data_head_heading">Heading  </label>
+                                                <input type="text" name="data_head[${nextindex}][heading]" id="data_head_heading" class="form-control"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="data_head_description">Description </label>
+                                                <input type="text" name="data_head[${nextindex}][description]" id="data_head_description" class="form-control"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="data_head_image">Image</label>
+                                                <input type="file" name="data_head[${nextindex}][head_image]" id="data_head_image"
+                                                    class="form-control-file" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                        `);
+
+                        // last <div> with element class id
+
+                    }
+                } else {
+                    // Adding element to <div>
+                    $(".data_container").append(`
+                                <div id="datadev_0" class="element border p-3 mb-3">
+                                    <div class="d-flex justify-content-end">
+                                        <span class="customRemove px-2" id='remove_0'>-</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="data_head_heading">Heading  </label>
+                                                <input type="text" name="data_head[0][heading]" id="data_head_heading" class="form-control"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="data_head_description">Description </label>
+                                                <input type="text" name="data_head[0][description]" id="data_head_description" class="form-control"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="data_head_image">Image</label>
+                                                <input type="file" name="data_head[0][head_image]" id="data_head_image"
+                                                    class="form-control-file" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                        `);
+                }
+            });
+
+            $('.data_container').on('click', '.customRemove', function() {
+                var id = this.id;
+                var split_id = id.split("_");
+                var deleteindex = split_id[1];
+
+                // // Remove <div> with id
+                $("#datadev_" + deleteindex).remove();
+
+            });
         });
-        // });
     </script>
 @endsection

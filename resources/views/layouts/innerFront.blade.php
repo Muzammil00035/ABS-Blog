@@ -6,7 +6,7 @@
     <!--- basic page needs
         ================================================== -->
     <meta charset="utf-8">
-    <title>Calvin</title>
+    <title>@yield('title')</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ asset('front/css/vendor.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/customCard.css') }}"> --}}
+
     
 
     <!-- script

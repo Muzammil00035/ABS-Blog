@@ -21,13 +21,15 @@ class Post extends Model
         'interlink',
         'url',
         'interlink_image',
-        'time_in_second'
+        'time_in_second',
+        'meta_title',
+        'meta_description'
     ];
 
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = $value;
-        $this->attributes['slug'] = Str::slug($value);
+        // $this->attributes['slug'] = Str::slug($value);
     }
     public function user()
     {
@@ -42,6 +44,11 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function headers()
+    {
+        return $this->hasMany(PostHeaders::class);
     }
 
     public function scopeFeatured($query){

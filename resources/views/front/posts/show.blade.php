@@ -1,4 +1,5 @@
 @extends('layouts.innerFront')
+@section('title', $post->title)
 @section('content')
     <section class="s-content">
 
@@ -26,7 +27,42 @@
                                 {!! $post->body !!}
                             </p>
 
+                            @if (count($post->headers) > 0)
+                                <div class="">
+                                    <div class="card border-0">
+                                        @for ($i = 0; $i < count($post->headers); $i++)
+                                            @if ($i % 2 == 0)
+                                                <div class="row no-gutters mx-0">
+                                                    <div class="col-sm-5">
+                                                        <img class="card-img" src={{ asset('images/'.$post->headers[$i]->image) }}
+                                                            alt="Suresh Dasari Card">
+                                                    </div>
+                                                    <div class="col-sm-7">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">{{ $post->headers[$i]->heading }}</h5>
+                                                            <p class="card-text">{{ $post->headers[$i]->description }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="row no-gutters mx-0">
 
+                                                    <div class="col-sm-7">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">{{ $post->headers[$i]->heading }}</h5>
+                                                            <p class="card-text">{{ $post->headers[$i]->description }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <img class="card-img" src="https://picsum.photos/400/200"
+                                                            alt="Suresh Dasari Card">
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                </div>
+                            @endif
                         </div> <!-- end s-entry__entry-content -->
 
                         <div class="s-content__entry-meta">
