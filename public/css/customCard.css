@@ -43,3 +43,8 @@ body {
     flex: 2;
     padding: 0 0 0 1.25rem;
 }
+
+.card-img-custom {
+    height: 265px;
+    object-fit: cover;
+}

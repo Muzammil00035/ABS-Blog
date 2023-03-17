@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="body">Post Description</label>
-                                <textarea id="body" name="body" class="form-control" rows="5">{{ $post->excerpt }}</textarea>
+                                <textarea id="description_body" name="body" class="form-control" rows="5">{{ $post->excerpt }}</textarea>
                             </div>
                             <div class="image-preview">
                                 <img src="{{ asset('images/' . $post->image) }}" alt="">
@@ -199,7 +199,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="title">Description </label>
-                                                    <input type="text" name="data_head[0][description]"
+                                                    <input type="text" name="data_head[{{ $i }}][description]"
                                                         id="data_head_description" class="form-control"
                                                         value="{{ $post->headers[$i]->description }}">
                                                 </div>
@@ -213,7 +213,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="title">Image</label>
-                                                    <input type="file" name="data_head[0][image]" id="data_head_image"
+                                                    <input type="file" name="data_head[{{ $i }}][head_image]" id="data_head_image"
                                                         class="form-control-file">
                                                 </div>
                                             </div>
@@ -251,7 +251,15 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            CKEDITOR.replace('body');
+            // CKEDITOR.replace('body');
+
+            CKEDITOR.replace('description_body', {
+                toolbar: [
+                    ['Bold', 'Italic',  'Link', 'Unlink','Image', 'Flash', 'Table','Undo', 'Redo','Cut', 'Copy', 'Paste','NumberedList', 'BulletedList',    ]
+                    // ['Link', 'Unlink']
+                    // { name: 'links', items : [ 'Link','Unlink' ] }
+                ]
+            });
 
             $(".customAddition").click(() => {
                 var total_element = $(".element").length;

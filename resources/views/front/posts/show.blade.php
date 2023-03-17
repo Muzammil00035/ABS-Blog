@@ -16,6 +16,7 @@
 
                     <div class="s-content__entry-header">
                         <h1 class="s-content__title s-content__title--post">{{ $post->title }}</h1>
+
                     </div> <!-- end s-content__entry-header -->
 
                     <div class="s-content__primary">
@@ -34,7 +35,8 @@
                                             @if ($i % 2 == 0)
                                                 <div class="row no-gutters mx-0">
                                                     <div class="col-sm-5">
-                                                        <img class="card-img" src={{ asset('images/'.$post->headers[$i]->image) }}
+                                                        <img class="card-img"
+                                                            src={{ asset('images/' . $post->headers[$i]->image) }}
                                                             alt="Suresh Dasari Card">
                                                     </div>
                                                     <div class="col-sm-7">
@@ -68,9 +70,10 @@
                         <div class="s-content__entry-meta">
 
                             <div class="entry-author meta-blk">
+
                                 <div class="byline">
                                     <span class="bytext">Published By</span>
-                                    <a href="#0">{{ $post->user->name }}</a>
+                                    <a href="/profile/{{ $post->user_id }}">{{ $post->user->name }}</a>
                                 </div>
                             </div>
                             <div class="meta-bottom">
@@ -82,9 +85,37 @@
 
                             </div>
 
+                            {{-- <div class="meta-bottom mt-5">
+                                <div class="entry-tags meta-blk">
+                                    <span class="tagtext">Recent Articles</span>
+
+                                </div>
+
+                                @if (count($post->recentPost()) > 0)
+                                    @php
+                                        $recentPost = $post->recentPost();
+                                    @endphp
+                                    @for ($i = 0; $i < count($post->recentPost()); $i++)
+                                        <a href="{{ route('posts.view', $recentPost[$i]->id) }}" class="thumb-link ">
+                                            <div class="entry__thumb position-relative">
+
+                                                <img src="{{ asset('images/' . $recentPost[$i]->image) }}" alt="">
+                                                <div class="position-absolute articleText">
+                                                    {{ $recentPost[$i]->title }}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endfor
+                                @endif
+
+                            </div> --}}
+
                         </div> <!-- s-content__entry-meta -->
 
                         <div class="s-content__pagenav">
+                            <div class="d-flex">
+                                {!! $shareComponent !!}
+                            </div>
                             @if ($post->previousPost())
                                 <div class="prev-nav">
                                     <a href="{{ route('posts.view', $post->previousPost()->id) }}" rel="prev">
@@ -101,6 +132,39 @@
                                     </a>
                                 </div>
                             @endif
+
+                            <div>
+                                <span>Recent Post</span>
+                            </div>
+                            @if (count($post->recentPost()) > 0)
+                                @php
+                                    $recentPost = $post->recentPost();
+                                @endphp
+                                @for ($i = 0; $i < count($post->recentPost()); $i++)
+                                    @php
+                                        $date = new \DateTime($recentPost[$i]->created_at);
+                                    @endphp
+                                    <a href="{{ route('posts.view', $recentPost[$i]->id) }}" class="thumb-link ">
+                                        <div class="d-flex align-items-start" style="gap:15px;">
+                                            <div style="flex: 2">
+                                                <img src="{{ asset('images/' . $recentPost[$i]->image) }}"
+                                                    class="img-fluid img-thumbnail mt-0" alt="">
+
+                                            </div>
+                                            {{-- <div class="position-absolute bottom-3">How muchh bottom left </div> --}}
+                                            <div style="flex: 2">
+                                                <div>
+                                                    <span class="textTruncateTwo">{{ $recentPost[$i]->title }}</span>
+                                                </div>
+                                                <div>
+                                                    <span class="updateDate" style="font-size: 9px; font-weight:100;">Updated at {{ $date->format('d-m-Y') }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endfor
+                            @endif
+
                         </div> <!-- end s-content__pagenav -->
 
                     </div> <!-- end s-content__primary -->

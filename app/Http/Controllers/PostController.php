@@ -180,7 +180,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::get();
-        $post = Post::with("categories" , "headers")->find($post->id);
+        $post = Post::with("categories", "headers")->find($post->id);
+
+
         // return $post;
         return view('back.posts.edit', [
             'post' => $post,
@@ -199,40 +201,95 @@ class PostController extends Controller
     {
         // the update method, only fire its events when the update happens directly on the model,
         // so we will use save directly on modal instead of mass assignment
-        if ($request->has('image')) {
-            $oldImage = $post->image;
-            if ($oldImage) {
-                if (file_exists(public_path('images/' . $oldImage))) {
-                    unlink(public_path('images/' . $oldImage));
+
+        // return dd(array_key_exists("id",$request->data_head[0]));
+        // if(isset($request->data_head[0]))
+        // return $request->data_head;
+        // return gettype($request->data_head[0]);
+        DB::beginTransaction();
+
+        try {
+            if ($request->has('image')) {
+                $oldImage = $post->image;
+                if ($oldImage) {
+                    if (file_exists(public_path('images/' . $oldImage))) {
+                        unlink(public_path('images/' . $oldImage));
+                    }
                 }
+                $this->uploadImage($request);
+                $post->image = $request->post()['image'];
             }
-            $this->uploadImage($request);
-            $post->image = $request->post()['image'];
-        }
-        if ($request->has('interlink_image')) {
-            $oldImage = $post->interlink_image;
-            if ($oldImage) {
-                if (file_exists(public_path('images/' . $oldImage))) {
-                    unlink(public_path('images/' . $oldImage));
+            if ($request->has('interlink_image')) {
+                $oldImage = $post->interlink_image;
+                if ($oldImage) {
+                    if (file_exists(public_path('images/' . $oldImage))) {
+                        unlink(public_path('images/' . $oldImage));
+                    }
                 }
+                $this->uploadInterLinkImage($request);
+
+                $post->interlink_image = $request->post()['interlink_image'];
             }
-            $this->uploadInterLinkImage($request);
 
-            $post->interlink_image = $request->post()['interlink_image'];
+            $post->title = $request->title;
+            $post->excerpt = $request->excerpt;
+            $post->body = $request->body;
+            $post->url = $request->post_url;
+            $post->slug = Str::slug($request->slug);
+            $post->meta_title = $request->meta_title;
+            $post->meta_description = $request->meta_description;
+            $post->interlink = $request->interlink == "on" ? true : false;
+            $post->time_in_second = $request->seconds < 0 ? 0 : $request->seconds;
+            if ($post->save()) {
+                if ($request->data_head) {
+                    if (count($request->data_head) > 0) {
+                        foreach ($request->data_head as $key => $value) {
+                            if (array_key_exists("id", $value)) {
+                                // return $value;
+                                $post_head = PostHeaders::find($value['id']);
+                                $post_head->heading = $value['heading'];
+                                $post_head->description = $value['description'];
+                                if (array_key_exists("head_image", $value)) {
+                                    $oldImage = $post_head->image;
+                                    if ($oldImage) {
+                                        if (file_exists(public_path('images/' . $oldImage))) {
+                                            unlink(public_path('images/' . $oldImage));
+                                        }
+                                    }
+                                    $ImgName = $this->uploadDataHeadImage($request, $key);
+
+                                    $post_head->image = $ImgName;
+                                }
+                                $post_head->save();
+                            } else {
+                                $post_head = new PostHeaders();
+                                $post_head->heading = $value['heading'];
+                                $post_head->description = $value['description'];
+                                $post_head->post_id = $post->id;
+                                if ($request->file('data_head')[$key]['head_image']) {
+                                    $ImgName = $this->uploadDataHeadImage($request, $key);
+
+                                    $post_head->image = $ImgName;
+                                }
+                                $post_head->save();
+                            }
+
+                        }
+                    }
+                }
+
+                DB::commit();
+                return back()->with('message', 'Post updated successfully');
+            } else {
+                return back()->with('error', 'Error Occured');
+            }
+
+        } catch (\Exception$th) {
+            DB::rollback();
+            // return redirect()->route('posts.create')->with('error', $th->getMessage());
+            return $th;
+
         }
-
-        $post->title = $request->title;
-        $post->excerpt = $request->excerpt;
-        $post->body = $request->body;
-        $post->url = $request->post_url;
-        $post->slug = Str::slug($request->slug);
-        $post->meta_title = $request->meta_title;
-        $post->meta_description = $request->meta_description;
-        $post->interlink = $request->interlink == "on" ? true : false;
-        $post->time_in_second = $request->seconds < 0 ? 0 : $request->seconds;
-        $post->save();
-
-        return back()->with('message', 'Post updated successfully');
     }
 
     /**

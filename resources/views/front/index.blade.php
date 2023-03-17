@@ -1,5 +1,5 @@
     @extends('layouts.front')
-    @section('title' , 'Calvin')
+    @section('title', 'Calvin')
 
     @section('content')
         <section id="hero" class="s-hero">
@@ -15,12 +15,13 @@
                                 <div class="column">
                                     <div class="s-hero__slide-meta">
                                         <span class="cat-links">
-                                            <a href="#0">{{ $post->categories->first()->title }}</a>
+                                            <a
+                                                href="{{ route('categories.view', $post->categories->first()->id) }}">{{ $post->categories->first()->title }}</a>
                                         </span>
                                         <span class="byline">
-                                            Posted by
+                                            Published by
                                             <span class="author">
-                                                <a href="#0">{{ $post->user->name }}</a>
+                                                <a href="/profile/{{ $post->user_id }}">{{ $post->user->name }}</a>
                                             </span>
                                         </span>
                                     </div>
@@ -97,25 +98,34 @@
                         @foreach ($posts as $post)
                             <article class="brick entry" data-aos="fade-up">
 
-                                <div class="entry__thumb">
-                                    <a href="{{ route('posts.view', $post->id) }}" class="thumb-link">
+                                <div class="entry__thumb position-relative">
+                                    <a href="{{ route('posts.view', $post->id) }}" class="thumb-link position-relative">
                                         <img src="{{ asset('images/' . $post->image) }}" alt="">
+
                                     </a>
+                                    {{-- <div class="position-absolute bottom-3">How muchh bottom left </div> --}}
+                                    <div class="position-absolute articleText  overflow-hidden">
+                                        <p class="textTruncateTwo mb-0"
+                                            style="font-weight: 400;
+                                        font-size: 15px;line-height: 20px;">
+                                            {{ $post->title }}</p>
+                                    </div>
                                 </div> <!-- end entry__thumb -->
 
                                 <div class="entry__text">
                                     <div class="entry__header">
-                                        <h1 class="entry__title"><a
-                                                href="{{ route('posts.view', $post->id) }}">{{ $post->title }}</a></h1>
+                                        {{-- <h1 class="entry__title"><a
+                                                href="{{ route('posts.view', $post->id) }}">{{ $post->title }}</a></h1> --}}
 
                                         <div class="entry__meta">
                                             <span class="byline">By:
                                                 <span class='author'>
-                                                    <a href="#">{{ $post->user->name }}</a>
+                                                    <a href="/profile/{{ $post->user->id }}">{{ $post->user->name }}</a>
                                                 </span>
                                             </span>
                                             <span class="cat-links">
-                                                <a href="#">{{ $post->categories->first()->title }}</a>
+                                                <a
+                                                    href="{{ route('categories.view', $post->categories->first()->id) }}">{{ $post->categories->first()->title }}</a>
                                             </span>
                                         </div>
                                     </div>
@@ -138,7 +148,7 @@
             </div> <!-- end s-bricks -->
 
         </section> <!-- end s-content -->
-        
+
 
         {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -164,7 +174,8 @@
         <div id="myModal" class="modal fade">
             <div class="modal-dialog modal-dialog-centered modal-newsletter">
                 <div class="modal-content">
-                    <form action="/" method="post">
+                    <form action="{{ route('newsfeed.subscribe') }}" method="post">
+                        @csrf
                         <div class="modal-header justify-content-center">
                             <div class="icon-box">
                                 <i class="material-icons">&#xE151;</i>
@@ -176,7 +187,8 @@
                             <h4>Subscribe</h4>
                             <p>Subscriber our newsletter to receive the latest updates and promostions.</p>
                             <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Enter your email" required>
+                                <input type="email" name="email" class="form-control" placeholder="Enter your email"
+                                    required>
                                 <input type="submit" class="btn btn-primary" value="Subscribe">
                             </div>
                         </div>
@@ -189,12 +201,13 @@
     @endsection
 
     @section('scripts')
+
         <script>
             $(document).ready(function() {
                 setTimeout(() => {
                     $("#myModal").modal('show');
                 }, 5000);
-                
+
             });
         </script>
     @endsection

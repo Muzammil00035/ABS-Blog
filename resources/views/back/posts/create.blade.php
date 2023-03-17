@@ -62,7 +62,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Post Description</label>
-                                <textarea id="ckeditor" name="body" class="ckeditor form-control" rows="4" required></textarea>
+                                <textarea id="description_body" name="body" class=" form-control" rows="4" required></textarea>
                             </div>
 
                             <div class="form-group">
@@ -211,24 +211,26 @@
         $(document).ready(function() {
             // CKEDITOR.editorConfig = function(config) {
             //     config.language = 'en';
-            //     config.toolbar = "mini";
-            //     config.removePlugins = 'contextmenu,liststyle,tabletools,tableselection';
+            //     config.toolbar = [{
+            //         name: 'clipboard',
+            //         items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+            //     }, ];
             //     config.disableNativeSpellChecker = false;
             // }
             // $(document).ready(function() {
             // console.log(CKEDITOR.editorConfig);
 
             // $('.ckeditor').ckeditor();
-            // CKEDITOR.replace('body', {
-            //     toolbar: [
-            //         // ['Bold', 'Italic',  'Link', 'Unlink']
-            //         ['Link', 'Unlink']
-
-            //     ]
+            CKEDITOR.replace('description_body', {
+                toolbar: [
+                    ['Bold', 'Italic',  'Link', 'Unlink','Image', 'Flash', 'Table','Undo', 'Redo','Cut', 'Copy', 'Paste','NumberedList', 'BulletedList',    ]
+                    // ['Link', 'Unlink']
+                    // { name: 'links', items : [ 'Link','Unlink' ] }
+                ]
+            });
             // });
-            // });
 
-            CKEDITOR.replace('body');
+            // CKEDITOR.replace('body');
 
             $(".customAddition").click(() => {
                 var total_element = $(".element").length;

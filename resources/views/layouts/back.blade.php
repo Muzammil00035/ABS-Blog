@@ -22,7 +22,8 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -114,6 +115,28 @@
                                 </a>
                             </li>
                         @endif
+
+                        @if (auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a href="{{ route('newslettersubscribers.list') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-tags"></i>
+                                    <p>
+                                        News Letter Subscribers
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (auth()->user()->isAdmin())
+                        <li class="nav-item">
+                            <a href="{{ route('user_activity.recent') }}" class="nav-link">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    Recent Activity
+                                </p>
+                            </a>
+                        </li>
+                    @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -137,7 +160,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-           
+
         </footer>
 
         <!-- Control Sidebar -->

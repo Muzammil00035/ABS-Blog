@@ -4,26 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-
 
 class Post extends Model
 {
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'title', 
-        'slug', 
-        'excerpt', 
-        'body',  
-        'featured', 
-        'image', 
+        'title',
+        'slug',
+        'excerpt',
+        'body',
+        'featured',
+        'image',
         'interlink',
         'url',
         'interlink_image',
         'time_in_second',
         'meta_title',
-        'meta_description'
+        'meta_description',
     ];
 
     public function setTitleAttribute($value)
@@ -51,15 +49,23 @@ class Post extends Model
         return $this->hasMany(PostHeaders::class);
     }
 
-    public function scopeFeatured($query){
+    public function scopeFeatured($query)
+    {
         return $query->where('featured', true);
     }
 
-    public function previousPost(){
-        return  Post::where('id', '<', $this->id)->orderBy('id','desc')->first();
+    public function previousPost()
+    {
+        return Post::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
     }
 
-    public function nextPost(){
+    public function nextPost()
+    {
         return Post::where('id', '>', $this->id)->orderBy('id')->first();
+    }
+
+    public function recentPost()
+    {
+        return Post::where("id", '!=', $this->id)->orderBy('id', 'desc')->take(5)->get();
     }
 }
