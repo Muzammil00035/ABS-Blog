@@ -22,12 +22,20 @@
             <li class="breadcrumb-item active">Posts</li>
         </ol>
     </div><!-- /.col -->
-
 @endsection
 @section('content')
     <!-- Main content -->
     <section class="content">
-
+        @if (Session::has('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ Session::get('error') }}
+            </div>
+        @endif
+        @if (Session::has('success'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('success') }}
+            </div>
+        @endif
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
@@ -63,7 +71,7 @@
                                     </small>
                                 </td>
                                 <td class="project-actions text-right">
-                                    <a class="btn btn-primary btn-sm" href="{{ route('posts.view', $post->id) }}">
+                                    <a class="btn btn-primary btn-sm" href="{{ route('posts-slug.view', $post->slug) }}">
                                         <i class="fas fa-folder">
                                         </i>
                                         View

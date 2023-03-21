@@ -21,12 +21,13 @@
                                         <span class="byline">
                                             Published by
                                             <span class="author">
-                                                <a href="/profile/{{ $post->user_id }}">{{ $post->user->name }}</a>
+                                                <a
+                                                    href="{{ route('userprofile.view', $post->user_id) }}">{{ $post->user->name }}</a>
                                             </span>
                                         </span>
                                     </div>
                                     <h1 class="s-hero__slide-text">
-                                        <a href="{{ route('posts.view', $post->id) }}">
+                                        <a href="{{ route('posts-slug.view', $post->slug) }}">
                                             {{ $post->title }}
                                         </a>
                                     </h1>
@@ -99,15 +100,18 @@
                             <article class="brick entry" data-aos="fade-up">
 
                                 <div class="entry__thumb position-relative">
-                                    <a href="{{ route('posts.view', $post->id) }}" class="thumb-link position-relative">
-                                        <img src="{{ asset('images/' . $post->image) }}" alt="">
+                                    <a href="{{ route('posts-slug.view', $post->slug) }}"
+                                        class="thumb-link position-relative">
+                                        <img style="height: 220px;object-fit: cover;"
+                                            src="{{ asset('images/' . $post->image) }}" alt="">
 
                                     </a>
                                     {{-- <div class="position-absolute bottom-3">How muchh bottom left </div> --}}
                                     <div class="position-absolute articleText  overflow-hidden">
                                         <p class="textTruncateTwo mb-0"
                                             style="font-weight: 400;
-                                        font-size: 15px;line-height: 20px;">
+                                        font-size: 15px;line-height: 20px; cursor : pointer;"
+                                            data-toggle="tooltip" title="{{ $post->title }}">
                                             {{ $post->title }}</p>
                                     </div>
                                 </div> <!-- end entry__thumb -->
@@ -115,12 +119,13 @@
                                 <div class="entry__text">
                                     <div class="entry__header">
                                         {{-- <h1 class="entry__title"><a
-                                                href="{{ route('posts.view', $post->id) }}">{{ $post->title }}</a></h1> --}}
+                                                href="{{ route('posts-slug.view', $post->id) }}">{{ $post->title }}</a></h1> --}}
 
                                         <div class="entry__meta">
                                             <span class="byline">By:
                                                 <span class='author'>
-                                                    <a href="/profile/{{ $post->user->id }}">{{ $post->user->name }}</a>
+                                                    <a
+                                                        href="{{ route('userprofile.view', $post->user_id) }}">{{ $post->user->name }}</a>
                                                 </span>
                                             </span>
                                             <span class="cat-links">
@@ -129,12 +134,12 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="entry__excerpt">
+                                    <div class="entry__excerpt textTruncateThree" style="height:85px; cursor:pointer;">
                                         <p>
                                             {{ $post->excerpt }}
                                         </p>
                                     </div>
-                                    <a class="entry__more-link" href="{{ route('posts.view', $post->id) }}">Learn
+                                    <a class="entry__more-link" href="{{ route('posts-slug.view', $post->slug) }}">Learn
                                         More</a>
                                 </div> <!-- end entry__text -->
 
@@ -174,7 +179,7 @@
         <div id="myModal" class="modal fade">
             <div class="modal-dialog modal-dialog-centered modal-newsletter">
                 <div class="modal-content">
-                    <form action="{{ route('newsfeed.subscribe') }}" method="post">
+                    <form id="newsLetterForm" action="{{ route('newsfeed.subscribe') }}" method="post">
                         @csrf
                         <div class="modal-header justify-content-center">
                             <div class="icon-box">
@@ -185,7 +190,7 @@
                         </div>
                         <div class="modal-body text-center">
                             <h4>Subscribe</h4>
-                            <p>Subscriber our newsletter to receive the latest updates and promostions.</p>
+                            <p>Subscriber our newsletter to receive the latest updates and promotions.</p>
                             <div class="form-group">
                                 <input type="email" name="email" class="form-control" placeholder="Enter your email"
                                     required>
@@ -204,9 +209,18 @@
 
         <script>
             $(document).ready(function() {
-                setTimeout(() => {
-                    $("#myModal").modal('show');
-                }, 5000);
+
+                $("#newsLetterForm").submit(function() {
+                    localStorage.setItem("subscribe", true);
+
+                });
+                let getItem = localStorage.getItem("subscribe");
+
+                if (!getItem) {
+                    setTimeout(() => {
+                        $("#myModal").modal('show');
+                    }, 5000);
+                }
 
             });
         </script>

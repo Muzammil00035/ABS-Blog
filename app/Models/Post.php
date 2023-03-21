@@ -66,6 +66,11 @@ class Post extends Model
 
     public function recentPost()
     {
-        return Post::where("id", '!=', $this->id)->orderBy('id', 'desc')->take(5)->get();
+        return Post::where("id", '!=', $this->id)->orderBy('created_at', 'desc')->take(5)->get();
+    }
+
+    public function similarPost(){
+        return Post::where("id", '!=', $this->id)->where("category")->orderBy('created_at', 'desc')->take(5)->get();
+
     }
 }

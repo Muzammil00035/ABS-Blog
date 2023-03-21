@@ -79,6 +79,17 @@ class ProfileController extends Controller
                 $user->name = $request->name;
                 $user->user_intro = $request->user_intro;
                 $user->user_type = $request->user_type;
+                $user->user_website = $request->user_website;
+                if ($request->has('image')) {
+                    $oldImage = $user->user_image;
+                    if ($oldImage) {
+                        if (file_exists(public_path('images/' . $oldImage))) {
+                            unlink(public_path('images/' . $oldImage));
+                        }
+                    }
+                    $this->uploadImage($request);
+                    $user->user_image = $request->user_image;
+                }
                 if ($user->save()) {
                     return redirect()->back()->with('success', 'Data has been updated');
                 } else {
@@ -101,5 +112,15 @@ class ProfileController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function uploadImage($request)
+    {
+        $image = $request->file('image');
+        $imageName = time() . $image->getClientOriginalName();
+        // add the new file
+        $image->move(public_path('images'), $imageName);
+        $request->merge(['user_image' => $imageName]);
+        // dd($request);
     }
 }

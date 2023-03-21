@@ -38,13 +38,21 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+        $img = "";
+        
+        if ($request->has('image')) {
+            $this->uploadImage($request);
+            $img = $request->user_image;
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_type' => $request->user_type, 
-            'user_intro' =>$request->user_intro
+            'user_intro' =>$request->user_intro,
+            'user_website'=>$request->user_website,
+            'user_image' =>$img
         ]);
 
         event(new Registered($user));
@@ -52,5 +60,15 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function uploadImage($request)
+    {
+        $image = $request->file('image');
+        $imageName = time() . $image->getClientOriginalName();
+        // add the new file
+        $image->move(public_path('images'), $imageName);
+        $request->merge(['user_image' => $imageName]);
+        // dd($request);
     }
 }

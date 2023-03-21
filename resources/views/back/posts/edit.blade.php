@@ -33,6 +33,13 @@
                             <h3 class="card-title">General</h3>
                         </div>
                         <div class="card-body">
+                            @if (auth()->user()->role != 'user')
+                                <div class="form-check">
+                                    <input type="checkbox" name="featured" class="form-check-input" id="exampleCheck1"  {{$post->featured == 1 ? 'checked' :''}}>
+                                    <label class="form-check-label" name="featured" for="exampleCheck1">Featured
+                                        Post</label>
+                                </div>
+                            @endif
                             <div class="form-group">
                                 <label for="title">Post Title</label>
                                 <input type="text" name="title" id="title" class="form-control"
@@ -123,7 +130,8 @@
                             <h3 class="card-title">Interlink</h3>
 
                             <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                    title="Collapse">
                                     <i class="fas fa-minus"></i>
                                 </button>
                             </div>
@@ -180,14 +188,14 @@
                             </div>
                             <div class="data_container">
                                 @for ($i = 0; $i < count($post->headers); $i++)
-                                    <div id="datadev_0" class="element border p-3 mb-3">
+                                    <div id="datadev_{{ $i }}" class="element border p-3 mb-3">
                                         <div class="d-flex justify-content-end">
-                                            <span class="customRemove px-2" id='remove_{{$i}}'>-</span>
+                                            <span class="customRemove px-2" id='remove_{{ $i }}'>-</span>
                                         </div>
                                         <div class="row">
                                             <input type="hidden" name="data_head[{{ $i }}][id]"
-                                                        id="data_head_id" class="form-control"
-                                                        value="{{ $post->headers[$i]->id }}">
+                                                id="data_head_id" class="form-control"
+                                                value="{{ $post->headers[$i]->id }}">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="title">Heading</label>
@@ -199,7 +207,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="title">Description </label>
-                                                    <input type="text" name="data_head[{{ $i }}][description]"
+                                                    <input type="text"
+                                                        name="data_head[{{ $i }}][description]"
                                                         id="data_head_description" class="form-control"
                                                         value="{{ $post->headers[$i]->description }}">
                                                 </div>
@@ -213,8 +222,9 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="title">Image</label>
-                                                    <input type="file" name="data_head[{{ $i }}][head_image]" id="data_head_image"
-                                                        class="form-control-file">
+                                                    <input type="file"
+                                                        name="data_head[{{ $i }}][head_image]"
+                                                        id="data_head_image" class="form-control-file">
                                                 </div>
                                             </div>
 
@@ -255,7 +265,9 @@
 
             CKEDITOR.replace('description_body', {
                 toolbar: [
-                    ['Bold', 'Italic',  'Link', 'Unlink','Image', 'Flash', 'Table','Undo', 'Redo','Cut', 'Copy', 'Paste','NumberedList', 'BulletedList',    ]
+                    ['Bold', 'Italic', 'Link', 'Unlink', 'Image', 'Flash', 'Table', 'Undo', 'Redo',
+                        'Cut', 'Copy', 'Paste', 'NumberedList', 'BulletedList',
+                    ]
                     // ['Link', 'Unlink']
                     // { name: 'links', items : [ 'Link','Unlink' ] }
                 ]
@@ -352,6 +364,10 @@
                 var id = this.id;
                 var split_id = id.split("_");
                 var deleteindex = split_id[1];
+
+                console.log({
+                    deleteindex
+                });
 
                 // // Remove <div> with id
                 $("#datadev_" + deleteindex).remove();

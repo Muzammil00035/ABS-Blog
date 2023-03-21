@@ -7,7 +7,6 @@
             <li class="breadcrumb-item active">News Feed Subscribers</li>
         </ol>
     </div><!-- /.col -->
-
 @endsection
 @section('content')
     <!-- Main content -->
@@ -28,6 +27,9 @@
                             <th style="width: 60%">
                                 Email
                             </th>
+                            <th style="width: 30%">
+                                Name
+                            </th>
                             {{-- <th style="width: 39%">
                             </th> --}}
                         </tr>
@@ -42,6 +44,9 @@
                                     <a>
                                         {{ $list->email }}
                                     </a>
+                                </td>
+                                <td>
+                                    {{ $list->name ? $list->name : 'N/A' }}
                                 </td>
                                 {{-- <td class="project-actions text-right">
                                     <a class="btn btn-info btn-sm" href="{{ route('categories.edit', $category->id) }}">

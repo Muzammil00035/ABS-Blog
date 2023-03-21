@@ -23,7 +23,7 @@
                 {{ Session::get('success') }}
             </div>
         @endif
-        <form method="POST" action="/admin/profile/update/{{auth()->user()->id}}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('update.profile', auth()->user()->id) }}" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-12">
@@ -35,18 +35,21 @@
 
                             <div class="form-group">
                                 <label for="name">Name </label>
-                                <input type="text" name="name" id="name" class="form-control" value="{{auth()->user()->name}}" required>
+                                <input type="text" name="name" id="name" class="form-control"
+                                    value="{{ auth()->user()->name }}" required>
                             </div>
                             {{-- Email Field --}}
                             <div class="form-group">
                                 <label for="email">Email </label>
-                                <input type="email" name="email" id="email" class="form-control" value="{{auth()->user()->email}}" disabled required>
+                                <input type="email" name="email" id="email" class="form-control"
+                                    value="{{ auth()->user()->email }}" disabled required>
                             </div>
                             {{-- End --}}
 
                             <div class="form-group">
                                 <label for="role">Role</label>
-                                <input type="text" id="role" name="role" class="form-control" rows="4" value="{{auth()->user()->role}}" disabled  required />
+                                <input type="text" id="role" name="role" class="form-control" rows="4"
+                                    value="{{ auth()->user()->role }}" disabled required />
                             </div>
                             <div class="form-group">
                                 <label for="user_type">Type</label>
@@ -63,7 +66,22 @@
 
                             <div class="form-group">
                                 <label for="intro">Intro</label>
-                                <textarea id="user_intro" name="user_intro" class="form-control" rows="4" required>{{auth()->user()->user_intro}}</textarea>
+                                <textarea id="user_intro" name="user_intro" class="form-control" rows="4" required>{{ auth()->user()->user_intro }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="website">Website</label>
+                                <input type="text" name="user_website" class="form-control" rows="4"
+                                    value="{{ auth()->user()->user_website }}">
+                            </div>
+                            @if (!empty(auth()->user()->user_website))
+                                <div class="image-preview">
+                                    <img src="{{ asset('images/' . auth()->user()->user_image) }}" alt="">
+                                </div>
+                            @endif
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input type="file" id="user_image" name="image" class="form-control-file">
                             </div>
                         </div>
                         <!-- /.card-body -->

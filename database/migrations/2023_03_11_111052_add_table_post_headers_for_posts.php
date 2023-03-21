@@ -21,8 +21,8 @@ class AddTablePostHeadersForPosts extends Migration
                 ->onUpdate('cascade');
             // $table->integer('post_id')->nullable();
             
-            $table->string('heading')->nullable();
-            $table->string('description')->nullable();
+            $table->text('heading')->nullable();
+            $table->text('description')->nullable();
             $table->string('image')->nullable();
             // $table->foreign('post_id')
             //     ->references('id')->on('posts')->onDelete('cascade');

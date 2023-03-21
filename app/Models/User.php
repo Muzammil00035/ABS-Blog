@@ -23,7 +23,9 @@ class User extends Authenticatable
         'role', 
         'valid',
         'user_type',
-        'user_intro'
+        'user_intro',
+        'user_website',
+        'user_image'
     ];
 
     /**

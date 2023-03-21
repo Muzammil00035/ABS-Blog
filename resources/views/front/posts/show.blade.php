@@ -1,5 +1,6 @@
 @extends('layouts.innerFront')
 @section('title', $post->title)
+@section('meta_description' , $post->meta_description)
 @section('content')
     <section class="s-content">
 
@@ -9,8 +10,13 @@
                 <article class="s-content__entry format-standard">
 
                     <div class="s-content__media">
-                        <div class="s-content__post-thumb text-center">
-                            <img src="{{ asset('images/' . $post->image) }}" alt="">
+                        <div class="mainPostImage">
+                            <div class="s-content__post-thumb text-center" style="height: 100%;">
+                                <img src="{{ asset('images/' . $post->image) }}" alt=""
+                                    style="width: 100%;
+                                height: 100%;
+                                object-fit: cover;">
+                            </div>
                         </div>
                     </div> <!-- end s-content__media -->
 
@@ -21,12 +27,13 @@
 
                     <div class="s-content__primary">
 
-                        <div class="s-content__entry-content">
-
-                            <p class="lead">
-                                {{-- {{ $post->body }} --}}
-                                {!! $post->body !!}
-                            </p>
+                        <div class="s-content__entry-content" style="border-left:0px;">
+                            <div>
+                                <p class="lead">
+                                    {{-- {{ $post->body }} --}}
+                                    {!! $post->body !!}
+                                </p>
+                            </div>
 
                             @if (count($post->headers) > 0)
                                 <div class="">
@@ -34,14 +41,19 @@
                                         @for ($i = 0; $i < count($post->headers); $i++)
                                             @if ($i % 2 == 0)
                                                 <div class="row no-gutters mx-0">
-                                                    <div class="col-sm-5">
-                                                        <img class="card-img"
-                                                            src={{ asset('images/' . $post->headers[$i]->image) }}
-                                                            alt="Suresh Dasari Card">
+                                                    <div class="col-sm-5" style="padding : 1.25rem;">
+                                                        @if (!empty($post->headers[$i]->image))
+                                                            <img class="card-img"
+                                                                src={{ asset('images/' . $post->headers[$i]->image) }}
+                                                                alt={{ $post->headers[$i]->heading }}>
+                                                        @else
+                                                            <img class="card-img" src="https://picsum.photos/400/200"
+                                                                alt={{ $post->headers[$i]->heading }}>
+                                                        @endif
                                                     </div>
                                                     <div class="col-sm-7">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title">{{ $post->headers[$i]->heading }}</h5>
+                                                        <div class="card-body" >
+                                                            <h5 style="margin : var(--vspace-1) 0 var(--vspace-1);" class="card-title">{{ $post->headers[$i]->heading }}</h5>
                                                             <p class="card-text">{{ $post->headers[$i]->description }}</p>
                                                         </div>
                                                     </div>
@@ -51,13 +63,19 @@
 
                                                     <div class="col-sm-7">
                                                         <div class="card-body">
-                                                            <h5 class="card-title">{{ $post->headers[$i]->heading }}</h5>
+                                                            <h5 style="margin : var(--vspace-1) 0 var(--vspace-1);" class="card-title">{{ $post->headers[$i]->heading }}</h5>
                                                             <p class="card-text">{{ $post->headers[$i]->description }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
-                                                        <img class="card-img" src="https://picsum.photos/400/200"
-                                                            alt="Suresh Dasari Card">
+                                                        @if (!empty($post->headers[$i]->image))
+                                                            <img class="card-img"
+                                                                src={{ asset('images/' . $post->headers[$i]->image) }}
+                                                                alt={{ $post->headers[$i]->heading }}>
+                                                        @else
+                                                            <img class="card-img" src="https://picsum.photos/400/200"
+                                                                alt={{ $post->headers[$i]->heading }}>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endif
@@ -65,15 +83,39 @@
                                     </div>
                                 </div>
                             @endif
-                        </div> <!-- end s-entry__entry-content -->
 
-                        <div class="s-content__entry-meta">
+                            <div class="fl-module-content fl-node-content">
+                                <div class="fl-separator"></div>
+                            </div>
+
+                            <div class="publisherAndCategory">
+                                <div class="byline">
+                                    <span class="bytext">Published By</span>
+                                    <a href="{{ route('userprofile.view', $post->user_id) }}">{{ $post->user->name }}</a>
+                                </div>
+                                <div class="entry-tags meta-blk">
+                                    <span class="tagtext">Category</span>
+                                    <a
+                                        href="{{ route('categories.view', $post->categories->first()->id) }}">{{ $post->categories->first()->title }}</a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-5" id="shareIcon">
+                                <div>
+                                    {!! $shareComponent !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- end s-entry__entry-content -->
+
+                        {{-- <div class="s-content__entry-meta">
 
                             <div class="entry-author meta-blk">
 
                                 <div class="byline">
                                     <span class="bytext">Published By</span>
-                                    <a href="/profile/{{ $post->user_id }}">{{ $post->user->name }}</a>
+                                    <a  href="{{route("userprofile.view" ,$post->user_id )}}">{{ $post->user->name }}</a>
                                 </div>
                             </div>
                             <div class="meta-bottom">
@@ -85,53 +127,29 @@
 
                             </div>
 
-                            {{-- <div class="meta-bottom mt-5">
-                                <div class="entry-tags meta-blk">
-                                    <span class="tagtext">Recent Articles</span>
+            
 
-                                </div>
-
-                                @if (count($post->recentPost()) > 0)
-                                    @php
-                                        $recentPost = $post->recentPost();
-                                    @endphp
-                                    @for ($i = 0; $i < count($post->recentPost()); $i++)
-                                        <a href="{{ route('posts.view', $recentPost[$i]->id) }}" class="thumb-link ">
-                                            <div class="entry__thumb position-relative">
-
-                                                <img src="{{ asset('images/' . $recentPost[$i]->image) }}" alt="">
-                                                <div class="position-absolute articleText">
-                                                    {{ $recentPost[$i]->title }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    @endfor
-                                @endif
-
-                            </div> --}}
-
-                        </div> <!-- s-content__entry-meta -->
+                        </div>  --}}
+                        <!-- s-content__entry-meta -->
 
                         <div class="s-content__pagenav">
-                            <div class="d-flex">
-                                {!! $shareComponent !!}
-                            </div>
-                            @if ($post->previousPost())
+
+                            {{-- @if ($post->previousPost())
                                 <div class="prev-nav">
-                                    <a href="{{ route('posts.view', $post->previousPost()->id) }}" rel="prev">
+                                    <a href="{{ route('posts-slug.view', $post->previousPost()->id) }}" rel="prev">
                                         <span>Previous</span>
                                         {{ $post->previousPost()->title }}
                                     </a>
                                 </div>
-                            @endif
-                            @if ($post->nextPost())
+                            @endif --}}
+                            {{-- @if ($post->nextPost())
                                 <div class="next-nav">
-                                    <a href="{{ route('posts.view', $post->nextPost()->id) }}" rel="next">
+                                    <a href="{{ route('posts-slug.view', $post->nextPost()->id) }}" rel="next">
                                         <span>Next</span>
                                         {{ $post->nextPost()->title }}
                                     </a>
                                 </div>
-                            @endif
+                            @endif --}}
 
                             <div>
                                 <span>Recent Post</span>
@@ -139,14 +157,21 @@
                             @if (count($post->recentPost()) > 0)
                                 @php
                                     $recentPost = $post->recentPost();
+                                    
                                 @endphp
                                 @for ($i = 0; $i < count($post->recentPost()); $i++)
                                     @php
                                         $date = new \DateTime($recentPost[$i]->created_at);
+                                        
+                                        $currentDate = strtotime(date('Y-m-d H:i:s'));
+                                        $postedDate = strtotime($recentPost[$i]->created_at);
+                                        $diff = $currentDate - $postedDate;
+                                        $hours = $diff / (60 * 60);
+                                        $minutes = $diff / 60;
                                     @endphp
-                                    <a href="{{ route('posts.view', $recentPost[$i]->id) }}" class="thumb-link ">
+                                    <a href="{{ route('posts-slug.view', $recentPost[$i]->slug) }}" class="thumb-link ">
                                         <div class="d-flex align-items-start" style="gap:15px;">
-                                            <div style="flex: 2">
+                                            <div class="recentPostImage">
                                                 <img src="{{ asset('images/' . $recentPost[$i]->image) }}"
                                                     class="img-fluid img-thumbnail mt-0" alt="">
 
@@ -154,10 +179,20 @@
                                             {{-- <div class="position-absolute bottom-3">How muchh bottom left </div> --}}
                                             <div style="flex: 2">
                                                 <div>
-                                                    <span class="textTruncateTwo">{{ $recentPost[$i]->title }}</span>
+                                                    <span class="textTruncateTwo"
+                                                        style="word-break: break-word;">{{ $recentPost[$i]->title }}</span>
                                                 </div>
                                                 <div>
-                                                    <span class="updateDate" style="font-size: 9px; font-weight:100;">Updated at {{ $date->format('d-m-Y') }}</span>
+                                                    <span class="updateDate"
+                                                        style="font-size: 9px; font-weight:100;">Updated at
+                                                        @if ($hours < 24 && $hours > 1)
+                                                            {{ intval($hours) }} hours ago
+                                                        @elseif($hours < 1)
+                                                        {{ intval($minutes)}} Minutes ago
+                                                        @else
+                                                            {{ $date->format('d-m-Y') }}
+                                                        @endif
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
