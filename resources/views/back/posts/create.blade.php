@@ -222,8 +222,14 @@
 
             // $('.ckeditor').ckeditor();
             CKEDITOR.replace('description_body', {
+                // filebrowserBrowseUrl: '/browser/browse.php',
+                // filebrowserUploadUrl: '/uploader/upload.php',
+                // filebrowserWindowWidth: '640',
+                // filebrowserWindowHeight: '480',
                 toolbar: [
-                    ['Bold', 'Italic',  'Link', 'Unlink','Image', 'Flash', 'Table','Undo', 'Redo','Cut', 'Copy', 'Paste','NumberedList', 'BulletedList',    ]
+                    ['Bold', 'Italic', 'Link', 'Unlink', 'Image', 'Flash', 'Table', 'Undo', 'Redo',
+                        'Cut', 'Copy', 'Paste', 'NumberedList', 'BulletedList', 'mediaEmbed'
+                    ]
                     // ['Link', 'Unlink']
                     // { name: 'links', items : [ 'Link','Unlink' ] }
                 ]

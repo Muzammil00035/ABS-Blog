@@ -1,3 +1,6 @@
+body{
+    font-family: 'Roboto Condensed', sans-serif;
+}
 .text-center {
     text-align: center;
 }
@@ -96,7 +99,43 @@
     flex: 2;
 }
 
+.profileCustomImg{
+    height: 120px;
+    width: 120px;
+    border-radius: 100%;
+    margin-bottom: 0px;
+}
+.s-hero__slide-content-custom {
+    height: 100%;
+    max-width: var(--width-wide);
+    padding-top: calc(100vh/3);
+    padding-bottom: 20vh;
+    position: relative;
+    margin: auto;
+}
 
+.profile-parent{
+    gap: 20px;
+    margin-bottom: var(--vspace-1);
+}
+
+.profileUserName {
+    font-size: 22px;
+    font-weight: bolder;
+    color: white;
+}
+
+.profileUserBio{
+    width: 50%;
+    text-align: center;
+    color: white;
+}
+
+.postBody img{
+    max-width: 90%!important;
+    height: 500px!important;
+    object-fit: cover;
+}
 
 @media screen and (max-width: 1200px) {
     .s-content__pagenav{
@@ -106,6 +145,12 @@
     .recentPostImage{
         flex: 1;
     }
+
+    .profileUserBio{
+        width: 80%;
+        font-size: 16px;
+    }
+    
 }
 
 
@@ -141,5 +186,20 @@
     .recentPostImage{
         flex: 2;
     }
+
+    .profileCustomImg{
+        height: 80px;
+        width: 80px;
+    }
+
+    .profile-parent{
+        flex-direction: column;
+    }
+
+    .profileUserBio{
+        width: 90%;
+        font-size: 16px;
+    }
+    /* 'proxima-nova', sans-serif */
     
 }

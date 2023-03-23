@@ -73,7 +73,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="body">Post Description</label>
-                                <textarea id="description_body" name="body" class="form-control" rows="5">{{ $post->excerpt }}</textarea>
+                                <textarea id="description_body" name="body" class="form-control" rows="5">{{ $post->body }}</textarea>
                             </div>
                             <div class="image-preview">
                                 <img src="{{ asset('images/' . $post->image) }}" alt="">

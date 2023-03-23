@@ -28,7 +28,7 @@
                     <div class="s-content__primary">
 
                         <div class="s-content__entry-content" style="border-left:0px;">
-                            <div>
+                            <div class="postBody">
                                 <p class="lead">
                                     {{-- {{ $post->body }} --}}
                                     {!! $post->body !!}
