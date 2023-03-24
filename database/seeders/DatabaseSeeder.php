@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'muzammil',
                 'email' => 'muzammil123@yopmail.com',
-                // 'email_verified'
+                'email_verified_at' =>date('Y-m-d H:i:s'),
                 'password' => Hash::make('12345678'),
                 'role' =>   'admin',
                 'valid' => 1
@@ -63,6 +63,7 @@ class DatabaseSeeder extends Seeder
             $post = Post::factory()->create([
                 'user_id' => 14,
                 'image' => 'img0' . $i . '.jpg',
+                'slug'=> 'post'.$i,
                 'featured' => $i<4 ? true : false ,
             ]);
             $category = Category::factory()->create();
