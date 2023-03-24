@@ -167,6 +167,10 @@
                                 <input type="number" name="seconds" id="seconds" class="form-control"
                                     value="{{ $post->time_in_second }}">
                             </div>
+                            <div class="form-group">
+                                <label for="btn_text">Button Text</label>
+                                <input type="text" name="btn_text" id="btn_text" class="form-control" value="{{ $post->btn_text }}">
+                            </div>
                         </div>
                     </div>
 

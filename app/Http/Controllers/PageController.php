@@ -228,6 +228,7 @@ class PageController extends Controller
             $post->meta_description = $request->meta_description;
             $post->interlink = $request->interlink == "on" ? true : false;
             $post->time_in_second = $request->seconds < 0 ? 0 : $request->seconds;
+            $post->btn_text = $request->btn_text;
             if ($post->save()) {
                 if ($request->data_head) {
                     if (count($request->data_head) > 0) {

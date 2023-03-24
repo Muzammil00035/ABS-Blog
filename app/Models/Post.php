@@ -22,6 +22,7 @@ class Post extends Model
         'time_in_second',
         'meta_title',
         'meta_description',
+        'btn_text'
     ];
 
     public function setTitleAttribute($value)

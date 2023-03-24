@@ -232,10 +232,10 @@
                 <div class="modal-footer">
                     @if ($post->url)
                         <a href="{{ $post->url }}">
-                            <button type="button" class="btn btn-primary">Visit This URL</button>
+                            <button type="button" class="btn btn-primary">{{ $post->btn_text ? $post->btn_text : "Visit This URL" }}</button>
                         </a>
                     @else
-                        <button type="button" class="btn btn-primary">Visit This URL</button>
+                        <button type="button" class="btn btn-primary">{{ $post->btn_text ? $post->btn_text : "Visit This URL" }}</button>
                     @endif
                 </div>
             </div>

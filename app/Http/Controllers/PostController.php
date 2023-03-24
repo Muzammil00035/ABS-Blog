@@ -55,7 +55,7 @@ class PostController extends Controller
     {
         // dd(count($request->file('data_head')));
         // dd( array_push($request->data_head[0] , ['head_image' => "Good"]));
-
+        // dd($request);
         DB::beginTransaction();
 
         try {
@@ -105,6 +105,7 @@ class PostController extends Controller
                     "url" => $request->post_url ? $request->post_url : null,
                     "interlink_image" => $interLinkImage,
                     "time_in_second" => $request->seconds ? $request->seconds : null,
+                    "btn_text" => $request->btn_text,
                 ]);
                 if (!empty($postCreate)) {
                     if ($request->data_head) {
@@ -170,8 +171,6 @@ class PostController extends Controller
     {
         //
     }
-
-   
 
     // /**
     //  * Update the specified resource in storage.
