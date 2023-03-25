@@ -1,5 +1,5 @@
 @extends('layouts.innerFront')
-@section('title' , $category->title )
+@section('title', $category->title)
 
 @section('content')
     <section class="s-content">
@@ -26,41 +26,45 @@
                         <span></span>
                     </div> --}}
                     @foreach ($category->posts as $post)
+                        <article class="brick entry" data-aos="fade-up">
 
-                    @endforeach
-                    <article class="brick entry" data-aos="fade-up">
+                            <div class="entry__thumb">
+                                <a href="{{ route('posts-slug.view', $post->slug) }}" class="thumb-link">
+                                    <img style="height: 210px;
+                                object-fit: cover;"
+                                        src="{{ asset('images/' . $post->image) }}" alt="">
+                                </a>
+                            </div> <!-- end entry__thumb -->
 
-                        <div class="entry__thumb">
-                            <a href="{{ route('posts-slug.view', $post->slug) }}" class="thumb-link">
-                                <img src="{{ asset('images/' . $post->image) }}" alt="">
-                            </a>
-                        </div> <!-- end entry__thumb -->
+                            <div class="entry__text">
+                                <div class="entry__header">
+                                    <h1 class="entry__title textTruncateOne" data-toggle="tooltip"
+                                        title="{{ $post->title }}"><a
+                                            href="{{ route('posts-slug.view', $post->slug) }}">{{ $post->title }}</a></h1>
 
-                        <div class="entry__text">
-                            <div class="entry__header">
-                                <h1 class="entry__title"><a
-                                        href="{{ route('posts-slug.view', $post->slug) }}">{{ $post->title }}</a></h1>
-
-                                <div class="entry__meta">
-                                    <span class="byline">By:
-                                        <span class='author'>
-                                            <a href="#">{{ $post->user->name }}</a>
+                                    <div class="entry__meta">
+                                        <span class="byline">By:
+                                            <span class='author'>
+                                                <a
+                                                    href="{{ route('userprofile.view', $post->user_id) }}">{{ $post->user->name }}</a>
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span class="cat-links">
-                                        <a href="#">{{ $category->title }}</a>
-                                    </span>
+                                        <span class="cat-links">
+                                            <a href="#">{{ $category->title }}</a>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="entry__excerpt">
-                                <p>
-                                    {{ $post->excerpt }}
-                                </p>
-                            </div>
-                            <a class="entry__more-link" href="{{ route('posts-slug.view', $post->slug) }}">Learn More</a>
-                        </div> <!-- end entry__text -->
+                                <div class="entry__excerpt cardTextSize textTruncateTwo ">
+                                    <p class="textTruncateTwo">
+                                        {{ $post->excerpt }}
+                                    </p>
+                                </div>
+                                <a class="entry__more-link" href="{{ route('posts-slug.view', $post->slug) }}">Learn
+                                    More</a>
+                            </div> <!-- end entry__text -->
 
-                    </article> <!-- end article -->
+                        </article> <!-- end article -->
+                    @endforeach
 
                 </div> <!-- end brick-wrapper -->
 
