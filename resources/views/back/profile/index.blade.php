@@ -74,7 +74,7 @@
                                 <input type="text" name="user_website" class="form-control" rows="4"
                                     value="{{ auth()->user()->user_website }}">
                             </div>
-                            @if (!empty(auth()->user()->user_website))
+                            @if (!empty(auth()->user()->user_image))
                                 <div class="image-preview">
                                     <img src="{{ asset('images/' . auth()->user()->user_image) }}" alt="">
                                 </div>
