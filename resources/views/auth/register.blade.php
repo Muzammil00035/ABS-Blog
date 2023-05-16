@@ -9,15 +9,15 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" id="registerForm">
             @csrf
 
             <!-- Name -->
             <div>
                 <x-label for="name" :value="__('Name')" />
 
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
-                    autofocus />
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
+                    required autofocus />
             </div>
 
             <!-- Email Address -->
@@ -87,6 +87,95 @@
                 <x-button class="ml-4">
                     {{ __('Register') }}
                 </x-button>
+            </div>
+
+
+            <!-- Thankyou Modal -->
+            <div class="flex items-center justify-end mt-4">
+                <!-- Button trigger modal -->
+                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Launch demo modal
+                </button> --}}
+
+                <!-- Modal -->
+
+                <!-- Thankyou Modal -->
+                <div tabindex="-1" class="modal pmd-modal fade text-center" id="terms-and-condition-modal"
+                    style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="terms-and-condition">Terms and Conditions</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="pmd-card-icon d-flex justify-center">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        width="75px" height="75px" viewBox="162.5 162.5 75 75"
+                                        enable-background="new 162.5 162.5 75 75" xml:space="preserve">
+                                        <g>
+                                            <path fill="#33CC99"
+                                                d="M199.943,162.54c-20.711,0-37.5,16.789-37.5,37.5c0,20.71,16.789,37.5,37.5,37.5
+                                            c20.711,0,37.5-16.789,37.5-37.5C237.443,179.329,220.654,162.54,199.943,162.54L199.943,162.54z M199.943,234.332
+                                            c-18.938,0-34.291-15.354-34.291-34.292c0-18.938,15.353-34.291,34.291-34.291c18.939,0,34.292,15.353,34.292,34.291l0,0
+                                            C234.234,218.979,218.882,234.332,199.943,234.332z">
+                                            </path>
+                                            <path fill="none" d="M176.333,176.333h46.334v46.334h-46.334V176.333z">
+                                            </path>
+                                            <path fill="#33CC99"
+                                                d="M193.765,207.568l-8.108-8.108l-2.703,2.704l10.811,10.811l23.167-23.167l-2.703-2.703L193.765,207.568z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <h2>Thank you for showing interest in Propeller!</h2>
+                                <p>You will receive an email with a download link on the email id you provided. Contact
+                                    our support in case of any issues with the download.</p>
+                                <p>The download link received in the email will expire within next 48 hours. We request
+                                    you to download your files right away!</p>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <div class="w-100 d-flex justify-between">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value=""
+                                            id="termsAndConditionAccept" />
+                                        <label class="form-check-label" for="flexCheckDefault">Accept</label>
+                                    </div>
+                                    <div>
+                                        <button data-dismiss="modal" class="btn pmd-ripple-effect btn-primary"
+                                            type="button">Got It!</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                {{-- <div class="modal fade" id="terms-and-condition-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="terms-and-condition" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="terms-and-condition">Terms and Conditions</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
         </form>
     </x-auth-card>

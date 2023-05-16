@@ -128,15 +128,48 @@
                         @endif
 
                         @if (auth()->user()->isAdmin())
-                        <li class="nav-item">
-                            <a href="{{ route('user_activity.recent') }}" class="nav-link">
-                                <i class="nav-icon fa fa-tags"></i>
-                                <p>
-                                    Recent Activity
-                                </p>
-                            </a>
-                        </li>
-                    @endif
+                            <li class="nav-item">
+                                <a href="{{ route('user_activity.recent') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-tags"></i>
+                                    <p>
+                                        Recent Activity
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a href="{{ route('privacy-policy.list') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-tags"></i>
+                                    <p>
+                                        Privacy Policy
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a href="{{ route('terms-condition.list') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-tags"></i>
+                                    <p>
+                                        Terms And Condition
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a href="{{ route('web-socials.list') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-tags"></i>
+                                    <p>
+                                        Web Socials
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

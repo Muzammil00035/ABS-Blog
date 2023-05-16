@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{ asset('front/css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/customFooter.css') }}">
 
     {{-- <link rel="stylesheet" href="{{ asset('css/customCard.css') }}"> --}}
 
@@ -109,7 +110,7 @@
 
 <!-- footer
 ================================================== -->
-<footer class="s-footer">
+{{-- <footer class="s-footer">
     <div class="s-footer__bottom">
         <div class="row">
             <div class="column">
@@ -132,8 +133,10 @@
         </div> <!-- end ss-go-top -->
     </div> <!-- end s-footer__bottom -->
 
-</footer> <!-- end s-footer -->
+</footer> <!-- end s-footer --> --}}
 
+
+<x-footerFront  :socials="$socials" />
 
 <!-- Java Script
 ================================================== -->

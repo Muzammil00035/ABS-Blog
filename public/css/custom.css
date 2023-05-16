@@ -1,5 +1,5 @@
-body{
-    font-family: 'Roboto Condensed', sans-serif;
+body {
+    font-family: "Roboto Condensed", sans-serif;
 }
 .text-center {
     text-align: center;
@@ -95,11 +95,11 @@ body{
     line-height: 25px;
 }
 
-.recentPostImage{
+.recentPostImage {
     flex: 2;
 }
 
-.profileCustomImg{
+.profileCustomImg {
     height: 120px;
     width: 120px;
     border-radius: 100%;
@@ -108,13 +108,13 @@ body{
 .s-hero__slide-content-custom {
     height: 100%;
     max-width: var(--width-wide);
-    padding-top: calc(100vh/3);
+    padding-top: calc(100vh / 3);
     padding-bottom: 20vh;
     position: relative;
     margin: auto;
 }
 
-.profile-parent{
+.profile-parent {
     gap: 20px;
     margin-bottom: var(--vspace-1);
 }
@@ -125,35 +125,64 @@ body{
     color: white;
 }
 
-.profileUserBio{
+.profileUserBio {
     width: 50%;
     text-align: center;
     color: white;
 }
 
-.postBody img{
-    max-width: 90%!important;
-    height: 500px!important;
+.postBody img {
+    max-width: 90% !important;
+    height: 500px !important;
     object-fit: cover;
 }
 
+.info-wrap .dbox {
+    width: 100%;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 25px;
+}
+.info-wrap .dbox:last-child {
+    margin-bottom: 0;
+}
+.info-wrap .dbox p {
+    margin-bottom: 0;
+}
+.info-wrap .dbox p span {
+    font-weight: 500;
+    color: #fff;
+}
+.info-wrap .dbox p a {
+    color: #fff;
+}
+.info-wrap .dbox .icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+.info-wrap .dbox .icon span {
+    font-size: 20px;
+    color: #fff;
+}
+.info-wrap .dbox .text {
+    width: calc(100% - 50px);
+}
+
 @media screen and (max-width: 1200px) {
-    .s-content__pagenav{
+    .s-content__pagenav {
         flex-direction: column;
     }
 
-    .recentPostImage{
+    .recentPostImage {
         flex: 1;
     }
 
-    .profileUserBio{
+    .profileUserBio {
         width: 80%;
         font-size: 16px;
     }
-    
 }
-
-
 
 @media screen and (max-width: 1400px) {
     .s-content__entry-meta {
@@ -183,23 +212,22 @@ body{
     .mainPostImage {
         height: 250px;
     }
-    .recentPostImage{
+    .recentPostImage {
         flex: 2;
     }
 
-    .profileCustomImg{
+    .profileCustomImg {
         height: 80px;
         width: 80px;
     }
 
-    .profile-parent{
+    .profile-parent {
         flex-direction: column;
     }
 
-    .profileUserBio{
+    .profileUserBio {
         width: 90%;
         font-size: 16px;
     }
     /* 'proxima-nova', sans-serif */
-    
 }

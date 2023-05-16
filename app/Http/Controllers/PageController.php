@@ -7,6 +7,10 @@ use App\Models\NewsFeedSubscribers;
 use App\Models\Post;
 use App\Models\PostHeaders;
 use App\Models\User;
+use App\Models\WebSocial;
+
+use App\Models\Settings;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -29,6 +33,19 @@ class PageController extends Controller
         ]);
     }
 
+    public function showPrivacypolicy()
+    {
+        $list = Settings::where("meta_key", "privacy-policy")->first();
+        return view('front.privacy-policy.index', compact('list'));
+    }
+
+
+    public function showContactForm()
+    {
+        // $list = Settings::where("meta_key", "privacy-policy")->first();
+        return view('front.contact-us.index');
+    }
+
     public function posts()
     {
         return view('posts.index');
@@ -37,6 +54,8 @@ class PageController extends Controller
     public function showPost(Post $post)
     {
         $post = $post->load('user', 'categories', 'headers');
+        $socials = WebSocial::all();
+        return $socials;
         $categories = Category::get();
         $base_url = env("BASE_URL");
         // return $base_url."posts/".$post->id;
@@ -51,13 +70,13 @@ class PageController extends Controller
             ->telegram()
             ->whatsapp()
             ->reddit();
-        //    return $post;
-        return view('front.posts.show', compact('post', 'categories', 'shareComponent'));
+           return $post;
+        // return view('front.posts.show', compact('post', 'categories', 'shareComponent' , 'socials'));
     }
 
     public function showPostSlug(Request $request, $slug)
     {
-
+        $socials = WebSocial::all();
         $post = Post::with('user', 'categories', 'headers')->where("slug", $slug)->first();
         if ($post) {
             // $post = $post->load('user', 'categories', 'headers');
@@ -66,7 +85,7 @@ class PageController extends Controller
             // return $base_url."posts/".$post->id;
             // return route("posts-slug.view" ,$post->id);
             $shareComponent = \Share::page(
-                route("posts-slug.view" ,$post->slug),
+                route("posts-slug.view", $post->slug),
                 // "https://fast.com/",
                 $post->title,
             )
@@ -77,7 +96,7 @@ class PageController extends Controller
                 ->whatsapp()
                 ->reddit();
             //    return $post;
-            return view('front.posts.show', compact('post', 'categories', 'shareComponent'));
+            return view('front.posts.show', compact('post', 'categories', 'shareComponent' , 'socials'));
         } else {
             return redirect()->back();
         }
@@ -269,8 +288,7 @@ class PageController extends Controller
 
                                 }
 
-                            }
-                            else {
+                            } else {
                                 $post_head = new PostHeaders();
                                 $post_head->heading = $value['heading'];
                                 $post_head->description = $value['description'];
@@ -298,7 +316,7 @@ class PageController extends Controller
                 return back()->with('error', 'Error Occured');
             }
 
-        } catch (\Exception$th) {
+        } catch (\Exception $th) {
             DB::rollback();
             // return redirect()->route('posts.create')->with('error', $th->getMessage());
             return $th;

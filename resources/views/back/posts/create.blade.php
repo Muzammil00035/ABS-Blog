@@ -210,9 +210,30 @@
 @section('javascript')
     {{-- <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script> --}}
     <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+    {{-- <script src="https://cdn.tiny.cloud/1/q3mul8cwqgdcv0ucctmtrqboclpn360rji5w9mlabrda3mpt/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script> --}}
+
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+            // tinymce.init({
+            //     selector: 'textarea#myeditorinstance',
+            //     plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+            //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            //     tinycomments_mode: 'embedded',
+            //     tinycomments_author: 'Author name',
+            //     mergetags_list: [{
+            //             value: 'First.Name',
+            //             title: 'First Name'
+            //         },
+            //         {
+            //             value: 'Email',
+            //             title: 'Email'
+            //         },
+            //     ]
+            // });
+
             // CKEDITOR.editorConfig = function(config) {
             //     config.language = 'en';
             //     config.toolbar = [{
@@ -238,25 +259,25 @@
                     // { name: 'links', items : [ 'Link','Unlink' ] }
                 ]
             });
-            // });
+        
 
-            // CKEDITOR.replace('body');
+        // CKEDITOR.replace('body');
 
-            $(".customAddition").click(() => {
-                var total_element = $(".element").length;
-                if (total_element > 0) {
-                    var lastid = $(".element:last").attr("id");
-                    var split_id = lastid.split("_");
-                    var nextindex = Number(split_id[1]) + 1;
-                    var max = 5;
-                    // Check total number elements
-                    if (total_element < max) {
-                        // Adding new div container after last occurance of element class
-                        $(".element:last").after(
-                            `<div id="datadev_${nextindex}" class="element border p-3 mb-3"></div>`);
+        $(".customAddition").click(() => {
+            var total_element = $(".element").length;
+            if (total_element > 0) {
+                var lastid = $(".element:last").attr("id");
+                var split_id = lastid.split("_");
+                var nextindex = Number(split_id[1]) + 1;
+                var max = 5;
+                // Check total number elements
+                if (total_element < max) {
+                    // Adding new div container after last occurance of element class
+                    $(".element:last").after(
+                        `<div id="datadev_${nextindex}" class="element border p-3 mb-3"></div>`);
 
-                        // Adding element to <div>
-                        $("#datadev_" + nextindex).append(`
+                    // Adding element to <div>
+                    $("#datadev_" + nextindex).append(`
                                     <div class="d-flex justify-content-end">
                                         <span class="customRemove px-2" id='remove_${nextindex}'>-</span>
                                     </div>
@@ -288,12 +309,12 @@
                                     </div>
                         `);
 
-                        // last <div> with element class id
+                    // last <div> with element class id
 
-                    }
-                } else {
-                    // Adding element to <div>
-                    $(".data_container").append(`
+                }
+            } else {
+                // Adding element to <div>
+                $(".data_container").append(`
                                 <div id="datadev_0" class="element border p-3 mb-3">
                                     <div class="d-flex justify-content-end">
                                         <span class="customRemove px-2" id='remove_0'>-</span>
@@ -326,33 +347,33 @@
                                     </div>
                                 </div>
                         `);
-                }
-            });
+            }
+        });
 
 
 
-            // var max = 5;
-            // // Check total number elements
-            // if (total_element < max) {
-            //     // Adding new div container after last occurance of element class
-            //     $(".element:last").after("<div class='element' id='div_" + nextindex + "'></div>");
+        // var max = 5;
+        // // Check total number elements
+        // if (total_element < max) {
+        //     // Adding new div container after last occurance of element class
+        //     $(".element:last").after("<div class='element' id='div_" + nextindex + "'></div>");
 
-            //     // Adding element to <div>
-            //     $("#div_" + nextindex).append("<input type='text' placeholder='Enter your skill' id='txt_" + nextindex +
-            //         "'>&nbsp;<span id='remove_" + nextindex + "' class='remove'>X</span>");
+        //     // Adding element to <div>
+        //     $("#div_" + nextindex).append("<input type='text' placeholder='Enter your skill' id='txt_" + nextindex +
+        //         "'>&nbsp;<span id='remove_" + nextindex + "' class='remove'>X</span>");
 
-            // }
+        // }
 
 
-            $('.data_container').on('click', '.customRemove', function() {
-                var id = this.id;
-                var split_id = id.split("_");
-                var deleteindex = split_id[1];
+        $('.data_container').on('click', '.customRemove', function() {
+        var id = this.id;
+        var split_id = id.split("_");
+        var deleteindex = split_id[1];
 
-                // // Remove <div> with id
-                $("#datadev_" + deleteindex).remove();
+        // // Remove <div> with id
+        $("#datadev_" + deleteindex).remove();
 
-            });
+        });
         });
     </script>
 @endsection
