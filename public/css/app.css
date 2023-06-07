@@ -188,6 +188,10 @@ textarea {
   margin: 0; /* 2 */
 }
 
+
+#terms-and-condition-check-modal{
+  cursor: pointer;
+}
 /**
 Remove the inheritance of text transform in Edge and Firefox.
 1. Remove the inheritance of text transform in Firefox.

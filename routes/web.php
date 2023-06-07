@@ -60,11 +60,11 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'ensureemail']], fu
     Route::post('terms-condition/update', 'TermsAndConditionController@updatePage')->name("terms-condition.update");
     Route::delete('terms-condition/delete', 'TermsAndConditionController@deletePage')->name("terms-condition.delete");
 
-    Route::get('web-socials/list', 'WebSocialsController@list')->name("web-socials.list");
-    Route::get('web-socials/create-page', 'WebSocialsController@createPage')->name("web-socials.create");
-    Route::post('web-socials/store', 'WebSocialsController@storePage')->name("web-socials.store");
-    Route::get('web-socials/update-page/{id}', 'WebSocialsController@updatePageShow')->name("web-socials.updatepageShow");
-    Route::post('web-socials/update', 'WebSocialsController@updatePage')->name("web-socials.update");
-    Route::delete('web-socials/delete', 'WebSocialsController@deletePage')->name("web-socials.delete");
+    Route::get('post-setting/list', 'PostSettingController@list')->name("web-socials.list");
+    Route::get('post-setting/create-page', 'PostSettingController@createPage')->name("post-setting.create");
+    Route::post('post-setting/store', 'PostSettingController@storePage')->name("post-setting.store");
+    Route::get('post-setting/update-page/{id}', 'PostSettingController@updatePageShow')->name("post-setting.updatepageShow");
+    Route::post('post-setting/update', 'PostSettingController@updatePage')->name("post-setting.update");
+    Route::delete('post-setting/delete', 'PostSettingController@deletePage')->name("post-setting.delete");
 
 });

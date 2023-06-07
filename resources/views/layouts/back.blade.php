@@ -170,6 +170,17 @@
                                 </a>
                             </li>
                         @endif
+
+                        @if (!auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a href="{{ route('web-socials.list') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-tags"></i>
+                                    <p>
+                                        Post Setting
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

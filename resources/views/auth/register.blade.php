@@ -78,16 +78,34 @@
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full">
 
             </div>
+            <div class="mb-4" id="terms-and-condition-error" style="display : none">
+
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                    <li id="terms-and-condition-error-message"></li>
+
+                </ul>
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <div><u id="terms-and-condition-check-modal">Terms and Conditions<u></div>
+            </div>
+
+
 
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-button class="ml-4">
+
+                <button type="button" id="registerButton"
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 ml-4">Register</button>
+
+                {{-- <x-button type="button" class="ml-4" id="registerButton">
                     {{ __('Register') }}
-                </x-button>
+                </x-button> --}}
             </div>
+
 
 
             <!-- Thankyou Modal -->
@@ -131,11 +149,14 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <h2>Thank you for showing interest in Propeller!</h2>
-                                <p>You will receive an email with a download link on the email id you provided. Contact
-                                    our support in case of any issues with the download.</p>
-                                <p>The download link received in the email will expire within next 48 hours. We request
-                                    you to download your files right away!</p>
+                                {{-- <h2>Thank you for showing interest in Propeller!</h2> --}}
+                                @if (!empty($terms_and_condition))
+                                    <div class="mt-4">
+                                        <p>{!! $terms_and_condition->meta_value !!}</p>
+                                    </div>
+                                @else
+                                    <p>No</p>
+                                @endif
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <div class="w-100 d-flex justify-between">

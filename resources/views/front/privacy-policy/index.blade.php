@@ -8,7 +8,7 @@
 
             <div class="s-hero__slide">
 
-                <div class="s-hero__slide-bg" style="background-image: url('images/home-imag1.jpg');"></div>
+                <div class="s-hero__slide-bg" style="background-image: url('images/privacy-policy.jpg');"></div>
 
                 <div class="s-hero__slide-content-custom">
                     <div class="d-flex justify-content-center align-items-center profile-parent">

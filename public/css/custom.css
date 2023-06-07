@@ -169,6 +169,10 @@ body {
     width: calc(100% - 50px);
 }
 
+#terms-and-condition-check-modal{
+    cursor: pointer;
+}
+
 @media screen and (max-width: 1200px) {
     .s-content__pagenav {
         flex-direction: column;

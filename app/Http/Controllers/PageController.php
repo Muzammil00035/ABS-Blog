@@ -6,11 +6,9 @@ use App\Models\Category;
 use App\Models\NewsFeedSubscribers;
 use App\Models\Post;
 use App\Models\PostHeaders;
+use App\Models\Settings;
 use App\Models\User;
 use App\Models\WebSocial;
-
-use App\Models\Settings;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +20,8 @@ class PageController extends Controller
     {
         $posts = Post::where('featured', false)
             ->with('user', 'categories')
-            ->get();
+            ->get()->take(10);
+        $socials = WebSocial::all();
         $category = Category::get();
         $featured = Post::featured()->take(10)->get();
         // dd($featured);
@@ -30,25 +29,28 @@ class PageController extends Controller
             'posts' => $posts,
             'featured' => $featured,
             'categories' => $category,
+            'socials' => $socials,
         ]);
     }
 
     public function showPrivacypolicy()
     {
         $list = Settings::where("meta_key", "privacy-policy")->first();
-        return view('front.privacy-policy.index', compact('list'));
+        $socials = WebSocial::all();
+        return view('front.privacy-policy.index', compact('list' , 'socials'));
     }
-
 
     public function showContactForm()
     {
         // $list = Settings::where("meta_key", "privacy-policy")->first();
-        return view('front.contact-us.index');
+        $socials = WebSocial::all();
+        return view('front.contact-us.index' , compact('socials'));
     }
 
     public function posts()
     {
-        return view('posts.index');
+        $socials = WebSocial::all();
+        return view('posts.index' , compact('socials'));
     }
 
     public function showPost(Post $post)
@@ -70,7 +72,7 @@ class PageController extends Controller
             ->telegram()
             ->whatsapp()
             ->reddit();
-           return $post;
+        return $post;
         // return view('front.posts.show', compact('post', 'categories', 'shareComponent' , 'socials'));
     }
 
@@ -96,7 +98,7 @@ class PageController extends Controller
                 ->whatsapp()
                 ->reddit();
             //    return $post;
-            return view('front.posts.show', compact('post', 'categories', 'shareComponent' , 'socials'));
+            return view('front.posts.show', compact('post', 'categories', 'shareComponent', 'socials'));
         } else {
             return redirect()->back();
         }
@@ -107,19 +109,21 @@ class PageController extends Controller
     {
         $posts = $category->posts()->get();
         $categories = Category::get();
-        return view('front.categories.show', compact('category', 'posts', 'categories'));
+        $socials = WebSocial::all();
+        return view('front.categories.show', compact('category', 'posts', 'categories' , 'socials'));
     }
     public function showUser(Request $request, $id)
     {
         if ($id) {
             $user_detail = User::find($id);
+            $socials = WebSocial::all();
             if ($user_detail) {
 
                 // return $user_detail;
                 if ($id) {
                     $posts = Post::with("categories", "headers")->where("user_id", $id)->orderBy("updated_at", "desc")->get();
 
-                    return view("front.profile.index", compact("user_detail", "posts"));
+                    return view("front.profile.index", compact("user_detail", "posts" ,"socials"));
                 } else {
                     return back()->with("error", "Error Occured");
                 }

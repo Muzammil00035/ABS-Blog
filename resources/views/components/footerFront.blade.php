@@ -1,7 +1,7 @@
 <footer class="main-footer">
     <div class="container-fluid">
         <div class="footer-content">
-            <div class="row">
+            <div class="row justify-content-between">
                 <div class="col-lg-4 col-md-6 col-sm-12 footer-column">
                     <div class="logo-widget footer-widget">
                         <figure class="logo-box"><a href="#"><img src="{{ asset('images/logo.svg') }}"
@@ -22,7 +22,7 @@
 
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 offset-lg-2 footer-column">
+                {{-- <div class="col-lg-3 col-md-6 col-sm-12 offset-lg-2 footer-column">
                     <div class="service-widget footer-widget">
                         <div class="footer-title">Services</div>
                         <ul class="list">
@@ -33,7 +33,7 @@
                             <li><a href="#">Help Orphan</a></li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-lg-3 col-md-6 col-sm-12 footer-widget">
                     <div class="contact-widget footer-widget">
                         <div class="footer-title">Contacts</div>
@@ -67,8 +67,9 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 column">
                 <ul class="footer-nav">
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="{{route('contact-us.view')}}">Contact Us</a></li>
+                    
+                    <li><a href="{{route('privacy-policy.view')}}">Privacy Policy</a></li>
                 </ul>
             </div>
         </div>

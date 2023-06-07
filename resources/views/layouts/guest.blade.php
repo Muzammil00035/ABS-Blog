@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    {{-- <title>{{ config('app.name', 'Calvin') }}</title> --}}
+    <title>Calvin</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -31,9 +32,34 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
 </script>
 <script>
-    // $('#terms-and-condition-modal').modal('show');
-    // $('#registerForm').submit();
-    
+    $('#terms-and-condition-check-modal').click((e) => {
+        e.preventDefault();
+        $('#terms-and-condition-modal').modal('show');
+
+
+        // $('#registerForm').submit();
+    });
+
+    $("#registerButton").click((e) => {
+        let confirmTerms = $("#termsAndConditionAccept").is(':checked');
+        if (confirmTerms) {
+            $('#registerForm').submit();
+        } else {
+            $("#terms-and-condition-error").css({
+                'display' : 'block'
+            })
+            $("#terms-and-condition-error-message").html("Accept our terms and conditions.")
+            return false;
+        }
+    })
+    // let confirm = $('#terms-and-condition-modal').is(':visible');
+
+    //     if (!confirm) {
+    //         $('#terms-and-condition-modal').modal('show');
+    //     }else{
+    //     let confirmTerms = $("#termsAndConditionAccept").val();
+
+    //     }
 </script>
 
 </html>
