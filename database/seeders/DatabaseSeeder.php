@@ -58,6 +58,21 @@ class DatabaseSeeder extends Seeder
             ]
         ]);
 
+
+        DB::table('user_type')->insert([
+            [
+                'type' => 'Author', 
+            ],
+            [
+                'type' => 'Writer',
+            ],
+            [
+                'type' => 'Editor',
+            ]
+        ]);
+
+
+
         // seed some posts 
         foreach (range(1, 8) as $i) {
             $post = Post::factory()->create([
