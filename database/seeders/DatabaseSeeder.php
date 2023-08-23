@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
         // insert default user 
         DB::table('users')->insert([
             [
-                'name' => 'muzammil',
-                'email' => 'muzammil123@yopmail.com',
+                'name' => 'ABS',
+                'email' => 'absintl@gmail.com',
                 'email_verified_at' =>date('Y-m-d H:i:s'),
                 'password' => Hash::make('12345678'),
                 'role' =>   'admin',

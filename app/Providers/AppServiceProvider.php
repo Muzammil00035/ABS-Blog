@@ -26,12 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-        $categories = Category::all();
-        View::composer('*', function ($view) use ($categories) {
-            $view->with('categories', $categories);
-        });
         
-        Post::observe(PostObserver::class);
+        // $categories = Category::all();
+        // View::composer('*', function ($view) use ($categories) {
+        //     $view->with('categories', $categories);
+        // });
+        
+        // Post::observe(PostObserver::class);
     }
 }
